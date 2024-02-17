@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
+import axios from 'axios'
 
 function Copyright(props) {
   return (
@@ -54,6 +55,16 @@ export default function Home() {
       alert('Invalid Data')
     }
   };
+  const handleSubmitLti = async () => {
+   
+    let DataJosn = {
+        "iss": "https://ltilocal.vercel.app",
+        "login_hint": "klkq-kjsjdlwque-ewj363",
+        "target_link_uri": "https://ltilocal.h5p.com/lti/launch"
+    }
+    const sentRequest = await axios.post('https://ltilocal.h5p.com/lti/login', DataJosn).then(res => res.data).catch(err => console.log(err))
+    console.log(sentRequest)
+};
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -121,6 +132,16 @@ export default function Home() {
               >
                 Sign In
               </Button>
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 1, mb: 2 }}
+                onClick={()=>{handleSubmitLti()}}
+              >
+                Sign In LTI
+              </Button>
+              
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
