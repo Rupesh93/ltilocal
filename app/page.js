@@ -58,7 +58,7 @@ export default function Home() {
   const handleSubmitLti = async () => {
    
     let DataJosn = {
-      "iss":"https://ltilocal.vercel.app/",
+      "iss":"https://ltilocal.vercel.app",
       "target_link_uri":"https://ltitest.h5p.com/lti/launch",
       "login_hint":"29123",
       "lti_message_hint":"My LTI message hint!",
