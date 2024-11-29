@@ -1,0 +1,20 @@
+{
+    "userData":[
+        {
+            "sno":"1",
+            "id":"kndoivejo-34nnjknnnlsdls-43nk32kjdk2",
+            "role":"admin",
+            "username":"Admin",
+            "userId":"admin",
+            "password":"admin@123"
+        },
+        {
+            "sno":"2",
+            "id":"kndoivejo-34nnj223nnlsdls-421nk32kjdk2",
+            "role":"student",
+            "username":"student",
+            "userId":"student",
+            "password":"student@123"
+        }
+    ]
+}

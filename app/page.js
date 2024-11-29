@@ -36,38 +36,45 @@ const defaultTheme = createTheme();
 export default function Home() {
   const router = useRouter()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    let email=data.get('email');
-    let password= data.get('password');
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    if (email === 'admin' && password === "12345678") {
-      router.push('/admin/dashboard')
+    let email = data.get('email');
+    let password = data.get('password');
+    let DataJosn = {
+      "userid": email,
+      "password": password
     }
-    else if(email === 'student' && password === "12345678"){
-      router.push('/Dashboard')
-    }
-    else{
-      alert('Invalid Data')
-    }
+    await axios.post('/api/login', DataJosn).
+      then(res => {
+        if (res.data.message === 'Invalid Credantials') {
+          alert('Invalid Data')
+        }
+        else if (res.data.role === 'admin') {
+          localStorage.setItem('userId', res.data.id)
+          router.push('/admin/dashboard')
+        }
+        else if (res.data.role === 'student') {
+          localStorage.setItem('userId', res.data.id)
+          router.push('/Dashboard')
+        }
+      })
+      .catch(err => console.log(err))
+
   };
   const handleSubmitLti = async () => {
-   
+
     let DataJosn = {
-      "iss":"https://ltilocal.vercel.app",
-      "target_link_uri":"https://ltitest.h5p.com/lti/launch",
-      "login_hint":"29123",
-      "lti_message_hint":"My LTI message hint!",
-      "client_id":"1234567890abcd",
-      "lti_deployment_id":"cLWwj9cbmkSrCNsckEFBmA"
+      "iss": "https://ltilocal.vercel.app",
+      "target_link_uri": "https://ltitest.h5p.com/lti/launch",
+      "login_hint": "29123",
+      "lti_message_hint": "My LTI message hint!",
+      "client_id": "1234567890abcd",
+      "lti_deployment_id": "cLWwj9cbmkSrCNsckEFBmA"
     }
     const sentRequest = await axios.post('https://ltitest.h5p.com/lti/launch', DataJosn).then(res => res.data).catch(err => console.log(err))
     console.log(sentRequest)
-};
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -140,11 +147,11 @@ export default function Home() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 1, mb: 2 }}
-                onClick={()=>{handleSubmitLti()}}
+                onClick={() => { handleSubmitLti() }}
               >
                 Sign In LTI
               </Button>
-              
+
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
